@@ -1,8 +1,17 @@
+import logging
+
 from dotenv import load_dotenv
 from config_app import ConfigApp
 from agent import Agent
 from datetime import datetime
 from zoneinfo import ZoneInfo
+
+# --- Configuración de silencio de logs ---
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("openai").setLevel(logging.WARNING)
+logging.getLogger("httpcore").setLevel(logging.WARNING)
+logging.basicConfig(level=logging.ERROR)
+# ---------------------------------------------
 
 class RagAgent:
 
@@ -30,7 +39,7 @@ class RagAgent:
                 print("¡Hasta luego!")
                 break
             response = self.agent.invoke(user_input)
-            print(f"Assistant: {response}\n")
+            print(f"\nAssistant: {response}\n")
 
 if __name__ == "__main__":
     RagAgent().run()
