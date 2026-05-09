@@ -3,6 +3,9 @@ import logging
 from dotenv import load_dotenv
 from config_app import ConfigApp
 from agent import Agent
+from gemini_embedder import GeminiEmbedder
+from supabase_doc_store import SupabaseDocStore
+
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -18,7 +21,9 @@ class RagAgent:
     def __init__(self):
         load_dotenv()
         self.config = ConfigApp()
-        self.agent = Agent(config=self.config)
+        embedder = GeminiEmbedder(gemini_api_key=self.config.GEMINI_API_KEY)
+        store = SupabaseDocStore(database_url=self.config.SUPABASE_URL)
+        self.agent = Agent(config=self.config, embedder=embedder, store=store)
 
     def _print_welcome(self) -> None:
         now = datetime.now(ZoneInfo(self.config.TIMEZONE)).strftime("%Y-%m-%d %H:%M")  # FIX: calculado localmente

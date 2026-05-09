@@ -46,15 +46,14 @@ def make_query_tool(embedder, store) -> list:
                 "source": "PostgreSQL pgvector (vía Supabase)"
             }
         except Exception:
-            # Enviamos un mensaje claro que el Agente leerá
             return {
                 "error": "SISTEMA FUERA DE LÍNEA: No es posible acceder a la base de datos en este momento. "
                          "Por favor, informa al usuario que intente más tarde.",
                 "matches": []
             }
 
-    return [query_documents]
+    return query_documents
 
 def build_tools(embedder, store) -> list:
-    return make_query_tool(embedder, store)
+    return [make_query_tool(embedder, store)]
 

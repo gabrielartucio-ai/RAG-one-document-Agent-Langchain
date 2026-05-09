@@ -16,7 +16,7 @@ if __name__ == "__main__":
     gemini_api_key = os.environ.get("GEMINI_API_KEY")
     DATABASE_URL = os.environ.get("DATABASE_URL")
 
-    embedder = GeminiEmbedder(api_key=gemini_api_key)
+    embedder = GeminiEmbedder(gemini_api_key=gemini_api_key)
     store = SupabaseDocStore(database_url=DATABASE_URL)
     pdf_ingester = PdfIngester(embedder=embedder, store=store)
 
